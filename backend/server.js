@@ -4,7 +4,7 @@ const PORT = 5000;
 
 // Middleware
 app.use(express.json());
-
+      
 // Routes
 app.get("/", (req, res) => {
   res.send("Backend server is running 🚀");
