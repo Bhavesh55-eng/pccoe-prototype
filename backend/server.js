@@ -4,10 +4,14 @@ const PORT = 5000;
 
 // Middleware
 app.use(express.json());
-
-// Route
+      
+// Routes
 app.get("/", (req, res) => {
   res.send("Backend server is running 🚀");
+});
+
+app.get("/api/message", (req, res) => {
+  res.json({ message: "Hello from backend 👋" });
 });
 
 // Start server
