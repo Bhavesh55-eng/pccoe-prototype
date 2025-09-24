@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 import pathlib
+dataset_path = pathlib.Path("docs")
 
 # Path to dataset
 dataset_path = pathlib.Path("docs")
