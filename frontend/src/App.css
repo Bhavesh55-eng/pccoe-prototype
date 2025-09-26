@@ -1,38 +1,346 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f7fa;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 20px;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-header h1 {
+  font-size: 2.5em;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-header p {
+  font-size: 1.2em;
+  opacity: 0.9;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border: 1px solid #e2e8f0;
+}
+
+.card h2 {
+  font-size: 1.5em;
+  margin-bottom: 16px;
+  color: #2d3748;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.status-operational {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-critical {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+.species-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.species-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.species-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.species-info h3 {
+  font-size: 1.1em;
+  margin-bottom: 4px;
+  color: #2d3748;
+}
+
+.species-info .scientific-name {
+  font-style: italic;
+  color: #718096;
+  margin-bottom: 8px;
+}
+
+.species-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9em;
+}
+
+.stat {
   display: flex;
   flex-direction: column;
+}
+
+.stat-label {
+  color: #718096;
+  font-size: 0.8em;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.endangered {
+  color: #dc2626;
+}
+
+.critically-endangered {
+  color: #991b1b;
+}
+
+.conservation-score {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 8px;
+}
+
+.score-bar {
+  width: 60px;
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.score-good {
+  background-color: #16a34a;
+}
+
+.score-warning {
+  background-color: #f59e0b;
+}
+
+.score-critical {
+  background-color: #dc2626;
+}
+
+.threat-alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  border-left: 4px solid;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.threat-high {
+  border-left-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.threat-medium {
+  border-left-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.threat-info h4 {
+  font-size: 1.1em;
+  margin-bottom: 4px;
+  color: #2d3748;
+}
+
+.threat-location {
+  color: #718096;
+  margin-bottom: 8px;
+}
+
+.threat-description {
+  color: #4a5568;
+  font-size: 0.9em;
+}
+
+.threat-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.threat-severity {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.severity-high {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.severity-medium {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.threat-time {
+  font-size: 0.8em;
+  color: #718096;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-value {
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.metric-change {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.positive {
+  color: #16a34a;
+}
+
+.negative {
+  color: #dc2626;
+}
+
+.chart-container {
+  height: 200px;
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  padding: 20px 0;
+}
+
+.chart-bar {
+  flex: 1;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px 4px 0 0;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+.chart-bar:hover {
+  transform: scaleY(1.1);
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e0;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
