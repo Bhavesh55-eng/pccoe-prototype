@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard';
 import MapView from './components/MapView';
 import SpeciesTracking from './components/SpeciesTracking';
 import HealthIndicators from './components/HealthIndicators';
-import ThreatAlerts from './components/ThreatAlerts';
+import ThreatAlerts from './components/ThreatAlert';
 import Analytics from './components/Analytics';
 import DataManagement from './components/DataManagement';
 import Reports from './components/Reports';
