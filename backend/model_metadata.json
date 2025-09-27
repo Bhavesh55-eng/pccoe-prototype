@@ -1,0 +1,15 @@
+{
+  "class_names": [
+    "Cat",
+    "Hen",
+    "Hippopotamus",
+    "Horse",
+    "Turtle",
+    "elephant",
+    "sheep",
+    "squirrel"
+  ],
+  "model_version": "2.0",
+  "trained_date": "2025-09-27T20:49:49.863455",
+  "num_classes": 8
+}
