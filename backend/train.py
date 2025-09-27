@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
+from keras import layers
 import pathlib
 
 # Path to dataset (go up one folder from src/ and into docs/)
@@ -9,7 +9,7 @@ dataset_path = pathlib.Path("../docs")
 # Load dataset
 train_dataset = keras.utils.image_dataset_from_directory(
     dataset_path,
-    image_size=(180, 180),
+    image_size=(180, 180), 
     batch_size=32
 )
 # Print detected class names
