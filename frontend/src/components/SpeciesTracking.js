@@ -10,9 +10,7 @@ const SpeciesTracking = () => {
   const [apiStatus, setApiStatus] = useState('unknown');
 
   useEffect(() => {
-    // Fetch species data from API
     fetchSpeciesData();
-    // Check API health
     checkApiHealth();
   }, []);
 
@@ -28,7 +26,6 @@ const SpeciesTracking = () => {
   };
 
   const fetchSpeciesData = async () => {
-    // Mock data - replace with actual API call
     const mockSpecies = [
       {
         id: 1,
@@ -61,4 +58,21 @@ const SpeciesTracking = () => {
         image: '/images/elephant.jpg'
       }
     ];
-    setSpecies(mo
+    setSpecies(mockSpecies);
+  };
+
+  return (
+    <div>
+      <h1>Species Tracking</h1>
+      <p>API Status: {apiStatus}</p>
+      <div className="species-list">
+        {species.map((sp) => (
+          <SpeciesCard key={sp.id} species={sp} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ✅ Export the component so it can be imported elsewhere
+export default SpeciesTracking;
