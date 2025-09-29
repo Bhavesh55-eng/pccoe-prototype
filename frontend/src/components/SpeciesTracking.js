@@ -6,11 +6,26 @@ const SpeciesTracking = () => {
   const [selectedSpecies, setSelectedSpecies] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [predictionResult, setPredictionResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiStatus, setApiStatus] = useState('unknown');
 
   useEffect(() => {
     // Fetch species data from API
     fetchSpeciesData();
+    // Check API health
+    checkApiHealth();
   }, []);
+
+  const checkApiHealth = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/health');
+      const data = await response.json();
+      setApiStatus(data.status === 'healthy' ? 'online' : 'offline');
+    } catch (error) {
+      setApiStatus('offline');
+      console.warn('Backend API is not available:', error);
+    }
+  };
 
   const fetchSpeciesData = async () => {
     // Mock data - replace with actual API call
@@ -46,98 +61,4 @@ const SpeciesTracking = () => {
         image: '/images/elephant.jpg'
       }
     ];
-    setSpecies(mockSpecies);
-  };
-
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedImage(URL.createObjectURL(file));
-      
-      // Send image to backend for prediction
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      try {
-        const response = await fetch('/api/predict', {
-          method: 'POST',
-          body: formData,
-        });
-        const result = await response.json();
-        setPredictionResult(result);
-      } catch (error) {
-        console.error('Prediction failed:', error);
-      }
-    }
-  };
-
-  return (
-    <div className="species-tracking">
-      <div className="section-header">
-        <h1>Species Tracking</h1>
-        <p>Monitor and identify species populations</p>
-      </div>
-
-      <div className="tracking-grid">
-        <div className="card">
-          <h2>Species Identification</h2>
-          <div className="upload-area">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              id="image-upload"
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="image-upload" className="upload-button">
-              📷 Upload Species Image
-            </label>
-            
-            {uploadedImage && (
-              <div className="uploaded-image">
-                <img src={uploadedImage} alt="Uploaded species" />
-                {predictionResult && (
-                  <div className="prediction-result">
-                    <h3>Prediction Result:</h3>
-                    <p><strong>Species:</strong> {predictionResult.species}</p>
-                    <p><strong>Confidence:</strong> {predictionResult.confidence}%</p>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="card">
-          <h2>Live Species Data</h2>
-          <div className="species-filter">
-            <select onChange={(e) => setSelectedSpecies(e.target.value)}>
-              <option value="">All Species</option>
-              {species.map(s => (
-                <option key={s.id} value={s.id}>{s.name}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div className="species-list">
-            {species.map(speciesItem => (
-              <SpeciesCard key={speciesItem.id} species={speciesItem} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="card">
-        <h2>Population Trends</h2>
-        <div className="trends-chart">
-          {/* Chart component would go here */}
-          <div className="chart-placeholder">
-            Population trends chart will be displayed here
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default SpeciesTracking;
+    setSpecies(mo

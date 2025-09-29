@@ -1,55 +1,53 @@
-# app.py
-from flask import Flask, request, jsonify
+# backend/app.py - Complete Flask API Server
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+import os
+import sys
+import json
+import tempfile
+import sqlite3
+from werkzeug.utils import secure_filename
+import tensorflow as tf
+from tensorflow import keras
 import numpy as np
 from PIL import Image
-import io
-import base64
-import your_model_module  # Your existing ML model
+from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend requests
+CORS(app, origins=["http://localhost:3000"])  # Allow React frontend
 
-# Load your trained model (modify path as needed)
-model = your_model_module.load_model('path/to/your/model')
+# Configuration
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'}
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
 
-@app.route('/predict', methods=['POST'])
-def predict_image():
-    try:
-        # Handle file upload from frontend
-        if 'image' not in request.files:
-            return jsonify({'error': 'No image provided'}), 400
-        
-        file = request.files['image']
-        
-        # Process the image
-        image = Image.open(file.stream)
-        
-        # Preprocess image for your model
-        processed_image = preprocess_image(image)
-        
-        # Make prediction
-        prediction = model.predict(processed_image)
-        result = process_prediction(prediction)
-        
-        return jsonify({
-            'success': True,
-            'prediction': result,
-            'confidence': float(prediction.max())
-        })
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 
-def preprocess_image(image):
-    # Add your image preprocessing logic here
-    # Resize, normalize, etc. based on your model requirements
-    pass
+# Create upload directory if it doesn't exist
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-def process_prediction(prediction):
-    # Convert model output to readable format
-    # Return class names, probabilities, etc.
-    pass
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+class EnhancedSpeciesPredictor:
+    def __init__(self, model_path, database_path, metadata_path):
+        try:
+            # Load the trained model
+            if os.path.exists(model_path):
+                self.model = keras.models.load_model(model_path)
+                print(f"✅ Model loaded successfully from {model_path}")
+            else:
+                # Fallback to basic model if enhanced model doesn't exist
+                basic_model_path = "species_classifier_model.h5"
+                if os.path.exists(basic_model_path):
+                    self.model = keras.models.load_model(basic_model_path)
+                    print(f"✅ Fallback model loaded from {basic_model_path}")
+                else:
+                    print("❌ No model file found!")
+                    self.model = None
+            
+            self.database_path = database_path
+            
+            # Load metadata or use default class names
+            if os.path.exists(metadata_path):
+                with open(metadata_path, 'r') as f:
+                    self.metadata = json.load(f)
+                    self.class_names = self.met
